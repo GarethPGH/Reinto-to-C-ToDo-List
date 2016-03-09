@@ -41,8 +41,10 @@ ostream& operator<< (ostream& stream, const TaskObject& a)///T is undefined but 
 }
 
 inline bool operator== (TaskObject task1, TaskObject task2) {
-	if ((task1.listNum == task1.listNum) & (task1.taskName == task2.taskName))
-	return true;
+	if ((task1.listNum == task1.listNum) & (task1.taskName == task2.taskName)) {
+		return true;
+	}
+	else { return false; }
 }
 
 int main()
@@ -102,17 +104,27 @@ int main()
 			}	
 			
 		}
-
+		}
 	//print entire ToDoList
-
+	TaskObject * ptr = &ToDoList[0];
+	while (ptr <= &ToDoList.back())
+	{
+		cout << *ptr;
+		ptr++;
 	}
+
+	//this kind of works, still prints "somestring" so something is going on with the assignment above in the loop.
+	//I have a hunch that this ptr does not point to the same memory bits that the prev scoped ptr does... Prints some of my values and fills in the rest with
+	//init values. Also prog demands more entries of complete the longer the list... 
 
 	//Optional Done button should call a method that displays a strike through of already done items. Or deletes done items
 	//Optional delete button to delete items that are deemed not worthy of being done.
 
 	//Close button to call finished. Ie: set taskItem to complete.
-	return 0;
+	char f;
+	cin >> f;
+	return f;
 }
 
 
-	//UI Gtkmm or Mongoose.
+	//UI Gtkmm, Mongoose, TreeFrog Framework, or CppCMS for MVC build
