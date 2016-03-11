@@ -29,8 +29,8 @@ public:
 
 };
 
-// Cant seem to figure out how to overload the << operator to accept my TaskObject values.
-ostream& operator<< (ostream& stream, const TaskObject& a)///T is undefined but should be template letter?
+
+ostream& operator<< (ostream& stream, const TaskObject& a)
 {
 
 	stream << to_string(a.listNum) + " : " + a.taskName ;
@@ -49,81 +49,71 @@ inline bool operator== (TaskObject task1, TaskObject task2) {
 
 int main()
 {
-	int loadingString;
-	int taskNum;
-
-	//create a list of taskObject objects to store values.
+	//Input Your TaskList	
 	cout << "Enter your TaskList" << endl;
-	taskNum = 1;
+
+	//var TaskNum and string TaskItem declared
+	int taskNum = 1;
 	string taskItem;
-	//list is global so that other functions have access.
+	
+	//Vector initialized, cleared and resized to hold TaskObject values
 	std::vector<TaskObject> ToDoList;
 	ToDoList.clear();
 	ToDoList.resize(1);
-	//create a new list of TaskList objects. Figure out how to make it varying in size or assign a large number of spaces.
-
-	for (loadingString = 0; loadingString < taskNum; loadingString++)
-	{
-		unsigned int size = ToDoList.capacity();
-		for (unsigned int listloop = 0; listloop < size; listloop++) {
-
-		taskItem = resultString();
-		//set value of taskItem
-		TaskObject TaskListObject(taskNum, taskItem);
-		//pass values to object constructor; should assign to object properties
-		
-		if (taskItem != TaskListObject.taskName) {
-			cout << "object not assigned";
-			break;
-		}
-		//This if statement is a placeholder for a future UI exit button.
-		else if (taskItem == "complete"){
-			break;
-		}
-		taskNum++;
-		//increment tasknum
-		ToDoList.resize(taskNum);
-		//resize the vector/list
-
-		//Double nesting loop to prevent it from changing my previous ToDoList values.
 	
-			ToDoList[listloop] = TaskListObject;
-			TaskObject* ptr = &ToDoList[listloop];
-			TaskObject taskAssigned = *ptr;
-			listloop++;
-			ToDoList.reserve(listloop);
-			//resize my vector again.
-			ptr++;
-			//increment pointer
-			
-			//cout << taskAssigned;
-			//print indexed value, should match TaskObject.
-			
-			if (taskAssigned == TaskListObject) {
-				cout << "TaskListObject has been assigned to TaskList";
-			}	
-			
-		}
-		}
-	//print entire ToDoList
-	TaskObject * ptr = &ToDoList[0];
-	while (ptr <= &ToDoList.back())
-	{
-		cout << *ptr;
-		ptr++;
-	}
 
-	//this kind of works, still prints "somestring" so something is going on with the assignment above in the loop.
-	//I have a hunch that this ptr does not point to the same memory bits that the prev scoped ptr does... Prints some of my values and fills in the rest with
-	//init values. Also prog demands more entries of complete the longer the list... 
+	while (taskItem != "complete")//placeholder for an exit button/event
+	{
+
+		//taskItem initialized to result of external function resultString();
+		taskItem = resultString();
+		if (taskItem == "complete") { break; }
+		
+		//TaskListObject created and set to pass values via object constructor.
+		TaskObject TaskListObject(taskNum, taskItem);
+		
+			if (taskItem != TaskListObject.taskName) {
+				cout << "object not assigned";
+				break;
+			}
+		
+		//increment taskNum;
+		taskNum++;
+		
+
+		//Assign TaskObjects to the ToDoList vector.
+		unsigned int listindex = 0;
+		ToDoList[listindex] = TaskListObject;
+		TaskObject* ptr = &ToDoList[listindex];
+		TaskObject taskAssigned = *ptr;
+		listindex++;
+	    ToDoList.reserve(listindex);
+
+		//Print the actual ToDoList; previous code to make sure that TaskObjects have been assigned has been removed in favor of printing the list by index.
+		unsigned int index = 0;
+		TaskObject * ptr2 = &ToDoList[0];
+		while (index <= (ToDoList.capacity() - 1))
+			{
+			
+				ptr2 = &ToDoList[index];
+				cout << *ptr2;
+				if (index == ToDoList.capacity()) {
+					break;
+				}
+				index++;
+			}
+
+		}
+	
+
+
 
 	//Optional Done button should call a method that displays a strike through of already done items. Or deletes done items
 	//Optional delete button to delete items that are deemed not worthy of being done.
 
 	//Close button to call finished. Ie: set taskItem to complete.
-	char f;
-	cin >> f;
-	return f;
+
+	return 0;
 }
 
 
